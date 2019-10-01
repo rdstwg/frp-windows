@@ -1,3 +1,4 @@
+#!/bin/bash
 wget -q -N --no-check-certificate https://github.com/fatedier/frp/releases/download/v0.29.0/frp_0.29.0_linux_amd64.tar.gz
 tar -zxvf frp_0.29.0_linux_amd64.tar.gz
 mv frp_0.29.0_linux_amd64 frp
