@@ -1,0 +1,27 @@
+# coding: utf-8
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+import requests
+def start():
+  login_headers = {
+    'Referer': 'https://v.qq.com',
+    'Cookie': '腾讯视频cookie'
+  }
+  login = requests.get('auth_refresh的完整链接',headers=login_headers)
+  cookie = requests.utils.dict_from_cookiejar(login.cookies)
+  sign_headers = {
+    'Cookie': '腾讯视频cookie vqq_vusession='+cookie['vqq_vusession']+';'
+  }
+  #这里的cookie 需要删掉vqq_vusession后面的 来拼接 vqq_vusession='+cookie['vqq_vusession']
+  sign = requests.get('https://vip.video.qq.com/fcgi-bin/comm_cgi?name=hierarchical_task_system&cmd=2',headers=sign_headers).text 
+  if 'Account Verify Error' in sign:
+    print 'Sign error,Cookie Invalid'
+    requests.get('https://sc.ftqq.com/sever酱key.send?text=%e7%ad%be%e5%88%b0%e5%a4%b1%e8%b4%a5&desp=%e7%ad%be%e5%88%b0%e5%a4%b1%e8%b4%a5%ef%bc%8cCookie%e5%a4%b1%e6%95%88')
+  else:
+    print 'Sign Success'
+    requests.get('https://sc.ftqq.com/sever酱key.send?text=%e7%ad%be%e5%88%b0%e6%88%90%e5%8a%9f%ef%bc%8c%e8%8e%b7%e5%be%97%e5%88%86%e6%95%b0%ef%bc%9a'+sign[42:-14]+'&desp=%e7%ad%be%e5%88%b0%e6%88%90%e5%8a%9f%ef%bc%8c%e8%8e%b7%e5%be%97%e5%88%86%e6%95%b0%ef%bc%9a'+sign[42:-14])
+def main_handler(event, context):
+  return start()
+if __name__ == '__main__':
+  start()
